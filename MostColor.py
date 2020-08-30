@@ -12,9 +12,9 @@ import os
 NUM_CLUSTERS = 5
 
 ##### CONFIG
-root = '' # Filepath to check if prompt_Root = True (use '\\' instead of '\')
+root = 'A:\Viktigt\Mina program\MostColor' # Filepath to check if prompt_Root = True (use '\\' instead of '\')
 
-prompt_Root = True # Program asks for path of images (True), or pre-set root (above) (False)
+prompt_Root = False # Program asks for path of images (True), or pre-set root (above) (False)
 prompt_Stop = False # Program says it's done when done (True), or instant close (False)
 #####
 
@@ -35,12 +35,13 @@ for root, dirs, files in os.walk(root, topdown=False):
              
             width, height = im.size
             print("Image size: " + str(width) + " x " + str(height))
-            
-            im = im.resize((150, 150))
+
+            if im.size >= (150, 150):
+                im = im.resize((150, 150))
             ar = np.asarray(im)
             shape = ar.shape
             try:
-                ar = ar.reshape(scipy.product(shape[:2]), shape[2]).astype(float)
+                ar = ar.reshape(np.product(shape[:2]), shape[2]).astype(float)
             except:
                 pass
 
@@ -55,10 +56,16 @@ for root, dirs, files in os.walk(root, topdown=False):
                 vecs, dist = scipy.cluster.vq.vq(ar, codes)
             except:
                 pass
-            counts, bins = scipy.histogram(vecs, len(codes))
+            counts, bins = np.histogram(vecs, len(codes))
 
-            index_max = scipy.argmax(counts)
+
+            index_max = np.argmax(counts)
             peak = codes[index_max]
+            print(str(peak))
+            if str(peak)  == '[255. 255. 255.   0.]':
+                print(peak)
+                print(str(index_max))
+                peak = codes[index_max - 1]
             colour = binascii.hexlify(bytearray(int(c) for c in peak)).decode('ascii')
             print("\nMost frequent color is %s (#%s)" % (peak, colour))
 
