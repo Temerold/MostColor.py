@@ -59,8 +59,6 @@ for root, dirs, files in os.walk(root, topdown=False):
 
             index_max = scipy.argmax(counts)
             peak = codes[index_max]
-            if peak == '0 . 0 . 0':
-                peak = codes[index_max - 1]
             colour = binascii.hexlify(bytearray(int(c) for c in peak)).decode('ascii')
             print("\nMost frequent color is %s (#%s)" % (peak, colour))
 
