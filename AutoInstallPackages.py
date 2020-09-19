@@ -5,4 +5,4 @@ try:
     os.system("pip install numpy")
     input("Installed packages successfully.")
 except:
-    input("Failed.")
+    input("Failed installing packages successfully.")
