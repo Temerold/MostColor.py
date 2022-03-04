@@ -1,2 +1,2 @@
 # MostColor.py
-Redraw image file with the file's most used color.
+Redraw image files with image files' most used color.
